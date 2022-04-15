@@ -5,13 +5,14 @@ import com.proyecto.AustroMarket.Model.Detail;
 import com.proyecto.AustroMarket.Model.Product;
 import com.proyecto.AustroMarket.Model.User;
 import com.proyecto.AustroMarket.Repository.ProductRepository;
+import com.proyecto.AustroMarket.Services.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/austrom/product")
@@ -20,9 +21,14 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private S3Service s3Service;
+
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Product product) {
         //ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
+
+
         productRepository.save(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
@@ -35,6 +41,20 @@ public class ProductController {
     @GetMapping("/{id}")
     public Optional<Product> getProductById(@PathVariable(value="id")Long productId) {
         return productRepository.findById(productId);
+    }
+
+    @GetMapping("/find/{name}")
+    public List<Product> getProductByName(@PathVariable(value="name")String value) {
+        List<Product> p=new ArrayList<>();
+        productRepository.findByName(value).stream().forEach(a->p.add(a));
+
+        try {
+            productRepository.findByPrice(Double.valueOf(value)).stream().forEach(a->p.add(a));
+        }catch (Exception e){
+
+        }
+        return p;
+
     }
 
     @PutMapping("/{id}")

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,19 @@ public class SallerController {
     @GetMapping("/{id}")
     public Optional<Saller> getClientById(@PathVariable(value="id")Long sallerId) {
         return sallerRepository.findById(sallerId);
+    }
+
+    @GetMapping("/findby/{value}")
+    public List<Saller> getClientBy(@PathVariable(value="value")String value) {
+        List<Saller> c=new ArrayList<>();
+
+        userRepository.findByName(value).forEach(a->
+                sallerRepository.findByUser(a).forEach(saller -> c.add(saller)));
+        userRepository.findByLastName(value).forEach(a->
+                sallerRepository.findByUser(a).forEach(saller -> c.add(saller)));
+
+        sallerRepository.findByBusinessName(value).stream().forEach(saller -> c.add(saller));
+        return c;
     }
 
     @PutMapping("/{id}")

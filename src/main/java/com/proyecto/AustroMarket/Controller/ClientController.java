@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,18 @@ public class ClientController {
     public Optional<Client> getClientById(@PathVariable(value="id")Long clientId) {
         return clientRepository.findById(clientId);
     }
+
+    @GetMapping("/findby/{value}")
+    public List<Client> getClientBy(@PathVariable(value="value")String value) {
+        List<Client> c=new ArrayList<>();
+
+        userRepository.findByName(value).forEach(a->
+                clientRepository.findByUser(a).forEach(client -> c.add(client)));
+        userRepository.findByLastName(value).forEach(a->
+                clientRepository.findByUser(a).forEach(client -> c.add(client)));
+        return c;
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update (@RequestBody User clientDetail, @PathVariable(value = "id") Long clientId){
