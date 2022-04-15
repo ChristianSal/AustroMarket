@@ -11,10 +11,54 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long billId;
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotBlank
     private long numBill;
-    @NotBlank
     private Date date;
-    @NotBlank
     private double total;
+
+    @ManyToOne
+    @JoinColumn(name="idClient")
+    private Client client;
+
+    public Bill() {
+    }
+
+    public long getBillId() {
+        return billId;
+    }
+
+    public void setBillId(long billId) {
+        this.billId = billId;
+    }
+
+    public long getNumBill() {
+        return numBill;
+    }
+
+    public void setNumBill(long numBill) {
+        this.numBill = numBill;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 }

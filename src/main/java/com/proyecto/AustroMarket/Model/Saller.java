@@ -10,16 +10,56 @@ public class Saller {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long sallerId;
     @Column(length = 200)
-    @NotBlank
     private String address;
     @Column(length = 50)
-    @NotBlank
     private String businessName;
     @Column
-    @NotBlank
     private double transport;
 
+    @OneToOne
+    @JoinColumn(name = "idUser")
+    private User user;
 
+    public Saller() {
+    }
 
+    public long getSallerId() {
+        return sallerId;
+    }
 
+    public void setSallerId(long sallerId) {
+        this.sallerId = sallerId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
+    public double getTransport() {
+        return transport;
+    }
+
+    public void setTransport(double transport) {
+        this.transport = transport;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
