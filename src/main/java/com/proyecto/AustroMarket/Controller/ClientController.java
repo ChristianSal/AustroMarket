@@ -1,6 +1,7 @@
 package com.proyecto.AustroMarket.Controller;
 
 import com.proyecto.AustroMarket.Model.Client;
+import com.proyecto.AustroMarket.Model.Product;
 import com.proyecto.AustroMarket.Model.User;
 import com.proyecto.AustroMarket.Repository.ClientRepository;
 import com.proyecto.AustroMarket.Repository.UserRepository;
@@ -32,6 +33,11 @@ public class ClientController {
     @GetMapping
     public List<Client> getClient(){
         return clientRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Client> getClientById(@PathVariable(value="id")Long clientId) {
+        return clientRepository.findById(clientId);
     }
 
     @PutMapping("/{id}")
@@ -69,20 +75,8 @@ public class ClientController {
         }catch (Exception e){
 
         }
-        /*user.get().setLastName(clientDetail.getLastName());
-        user.get().setMail(clientDetail.getMail());
-        user.get().setPhone(clientDetail.getPhone());*/
-        try {
-            System.out.println("Nuevo"+clientDetail.isState());
-            System.out.println("Antiguo"+user.get().isState());
-            if(clientDetail.isState() && user.get().isState()){
-                System.out.println("entra if");
-            }else{
-                user.get().setState(clientDetail.isState());
-            }
-        } catch (Exception e){
 
-        }
+        user.get().setState(clientDetail.isState());
 
         userRepository.save(user.get());
 

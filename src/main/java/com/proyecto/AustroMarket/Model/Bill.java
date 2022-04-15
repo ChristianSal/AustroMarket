@@ -10,8 +10,6 @@ public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long billId;
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long numBill;
     private Date date;
     private double total;
 
@@ -30,13 +28,6 @@ public class Bill {
         this.billId = billId;
     }
 
-    public long getNumBill() {
-        return numBill;
-    }
-
-    public void setNumBill(long numBill) {
-        this.numBill = numBill;
-    }
 
     public Date getDate() {
         return date;
